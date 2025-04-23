@@ -4,9 +4,9 @@ import { ActionTypes } from "../constants/action-types"
 import Auth from "../../services/Auth"
 
 
-export const getSubjectDetails = () => {
+export const getTeacherDetails = () => {
     return async(dispatch) => {
-      axios.get(apis.BASE + apis.GET_SUBJECT_DETAILS, {
+      axios.get(apis.BASE + apis.GET_TEACHER_DETAILS, {
         headers : {
           'Authorization':`Bearer ${Auth.retriveToken()}`
         }
@@ -14,9 +14,9 @@ export const getSubjectDetails = () => {
 
         if(response.data.success) {
           dispatch({
-            type: ActionTypes.GET_ALL_SUBJECT,
+            type: ActionTypes.GET_ALL_TEACHER,
             payload : {
-              subjectlist : response.data.subjects
+              teacherlist : response.data.teachers
             }
           })
         }
@@ -24,8 +24,8 @@ export const getSubjectDetails = () => {
     }
 }
 
-export const SubjectToggleStatus = (status,id,callback) => {
-  var apisuffix = status ? apis.REMOVE_SUBJECT : apis.UNBLOCK_SUBJECT;
+export const TeacherToggleStatus = (status,id,callback) => {
+  var apisuffix = status ? apis.REMOVE_USER : apis.UNBLOCK_USER;
   return async() => {
     await axios.post(apis.BASE + apisuffix,{
       _id : id
@@ -35,7 +35,6 @@ export const SubjectToggleStatus = (status,id,callback) => {
       }
     }).then(response => {
       if(response.data.success) {
-        console.log(response.data);
         callback();
       } else {
         console.log(response.data);
